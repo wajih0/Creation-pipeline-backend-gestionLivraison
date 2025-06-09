@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.9.9'
-        jdk 'JDK 17'
-    }
+         maven 'Maven_3.9.9'
+         jdk 'JDK 17'
+     }
 
     environment {
         IMAGE_NAME = 'demoproduit'
