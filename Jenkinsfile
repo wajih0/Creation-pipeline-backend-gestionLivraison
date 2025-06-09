@@ -39,19 +39,20 @@ pipeline {
             }
         }
 
-        stage('Optional: Push Docker Image') {
-            when {
-                expression { return env.DOCKER_REGISTRY != '' }
-            }
-            steps {
-                script {
-                    docker.withRegistry('', 'docker-hub-credentials-id') {
-                        bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-                        bat "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-                    }
-                }
-            }
-        }
+          stage('Optional: Push Docker Image') {
+                  when {
+                      expression { return env.DOCKER_REGISTRY?.trim() }
+                  }
+                  steps {
+                      script {
+                          def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+                          bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
+                          docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker-hub-credentials-id') {
+                              bat "docker push ${fullImage}"
+                          }
+                      }
+                  }
+              }
     }
 
     post {
