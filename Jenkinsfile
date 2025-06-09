@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.8.1'  // à adapter au nom défini dans Jenkins
+        maven 'Maven 3.9.9'  // à adapter au nom défini dans Jenkins
         jdk 'JDK 17'         // à adapter également
     }
 
@@ -14,7 +14,7 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            steps {
+            steps {z
                 checkout scm
             }
         }
