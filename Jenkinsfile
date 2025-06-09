@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.9.9'  // à adapter au nom défini dans Jenkins
-        jdk 'JDK 17'         // à adapter également
+        maven 'Maven 3.9.9'
+        jdk 'JDK 17'
     }
 
     environment {
