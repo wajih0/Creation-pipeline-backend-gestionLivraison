@@ -57,7 +57,8 @@ pipeline {
 
                            script {
                                             docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
-                                                       docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
+                                                     def image = docker.image("${IMAGE_NAME}:${IMAGE_TAG}")
+                                                                    image.push()
                                                    }
                                          }
                         }
