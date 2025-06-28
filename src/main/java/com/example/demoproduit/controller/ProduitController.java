@@ -14,7 +14,8 @@ import java.util.List;
 public class ProduitController {
     private  final ProduitService produitService;
 
-    public ProduitController(ProduitService produitService) {
+    public ProduitController(ProduitService produitService, ProduitService produitService1) {
+        this.produitService = produitService1;
     }
 
 
