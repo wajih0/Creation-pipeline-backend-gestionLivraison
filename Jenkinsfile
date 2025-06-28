@@ -58,7 +58,7 @@ pipeline {
                              // Push l'image taguée
                              bat "docker push ${fullImage}"
                          }
-                     }
+
 
                   }
 //             steps {
