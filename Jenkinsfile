@@ -55,11 +55,13 @@ pipeline {
 //                   }
             steps {
 
-                            script {
-                               docker.withRegistry("https://${DOCKER_REGISTRY}", DOCKER_CREDENTIALS_ID) {
-                                                       docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
-                                                   }
-                            }
+                           script {
+                                             def fullImage = "${env.IMAGE_NAME}:${env.IMAGE_TAG}"
+                                             bat """
+                                                 docker tag ${env.IMAGE_NAME}:${env.IMAGE_TAG} ${fullImage}
+                                                 docker push --quiet ${fullImage}  && echo "Push successful"
+                                             """
+                                         }
                         }
               }
     }
