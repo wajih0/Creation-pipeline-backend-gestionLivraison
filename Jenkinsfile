@@ -10,7 +10,7 @@ pipeline {
         IMAGE_NAME = 'wajihdocker/wajihrepo'
         IMAGE_TAG = 'latest'
         DOCKER_REGISTRY = 'docker.io' // exemple: 'dockerhub' ou vide si pas de push
-         DOCKER_CREDENTIALS_ID = 'docker_cred'
+         DOCKER_CREDENTIALS_ID = 'docker_credantial'
     }
 
     stages {
@@ -41,28 +41,36 @@ pipeline {
         }
 
           stage('Optional: Push Docker Image') {
-//                   when {
-//                       expression { return env.DOCKER_REGISTRY?.trim() }
-//                   }
-//                   steps {
-//                       script {
-//                           def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-//                           bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
-//                             docker.withRegistry("https://${DOCKER_REGISTRY}", DOCKER_CREDENTIALS_ID) {
-//                                                   docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
-//                                               }
-//                       }
-//                   }
-            steps {
-                           // bat "docker login -u ${DOCKER_HUB_CREDENTALS_USR} -p ${DOCKER_HUB_CREDENTALS_PSW}"
-                           script {
-                                            docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
-                                                     def image = docker.image("${IMAGE_NAME}:${IMAGE_TAG}")
-                                                                    image.push()
-                                                   }
-                                         }
-                        }
-              }
+                  when {
+                      expression { return env.DOCKER_REGISTRY?.trim() }
+                  }
+                  steps {
+                     script {
+                         docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
+                             def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+
+                             // Affichage utile pour debug
+                             echo "Tagging and pushing image: ${fullImage}"
+
+                             // Tag l'image localement vers le nom complet du registre
+                             bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
+
+                             // Push l'image taguée
+                             bat "docker push ${fullImage}"
+                         }
+                     }
+
+                  }
+//             steps {
+//                            // bat "docker login -u ${DOCKER_HUB_CREDENTALS_USR} -p ${DOCKER_HUB_CREDENTALS_PSW}"
+//                            script {
+//                                             docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
+//                                                      def image = docker.image("${IMAGE_NAME}:${IMAGE_TAG}")
+//                                                                     image.push()
+//                                                    }
+//                                          }
+//                         }
+//               }
     }
 
     post {
