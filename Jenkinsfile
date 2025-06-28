@@ -58,20 +58,11 @@ pipeline {
                              // Push l'image taguée
                              bat "docker push ${fullImage}"
                          }
-
+                     }
 
                   }
-//             steps {
-//                            // bat "docker login -u ${DOCKER_HUB_CREDENTALS_USR} -p ${DOCKER_HUB_CREDENTALS_PSW}"
-//                            script {
-//                                             docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
-//                                                      def image = docker.image("${IMAGE_NAME}:${IMAGE_TAG}")
-//                                                                     image.push()
-//                                                    }
-//                                          }
-//                         }
-//               }
-    }
+
+
 
     post {
         success {
