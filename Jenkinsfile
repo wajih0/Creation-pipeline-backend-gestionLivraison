@@ -10,7 +10,7 @@ pipeline {
         IMAGE_NAME = 'wajihdocker/wajihrepo'
         IMAGE_TAG = 'latest'
         DOCKER_REGISTRY = 'docker.io' // exemple: 'dockerhub' ou vide si pas de push
-         DOCKER_CREDENTIALS_ID = 'docker_credantial'
+         DOCKER_CREDENTIALS_ID = 'docker_cred'
     }
 
     stages {
