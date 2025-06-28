@@ -7,7 +7,7 @@ pipeline {
      }
 
     environment {
-        IMAGE_NAME = 'demoproduit'
+        IMAGE_NAME = 'wajih0/pipeline-demoproduit'
         IMAGE_TAG = 'latest'
         DOCKER_REGISTRY = 'docker.io' // exemple: 'dockerhub' ou vide si pas de push
          DOCKER_CREDENTIALS_ID = 'docker_credantial'
