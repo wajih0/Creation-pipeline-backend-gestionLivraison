@@ -10,6 +10,7 @@ pipeline {
         IMAGE_NAME = 'demoproduit'
         IMAGE_TAG = 'latest'
         DOCKER_REGISTRY = 'docker.io' // exemple: 'dockerhub' ou vide si pas de push
+         DOCKER_CREDENTIALS_ID = 'docker_credantial'
     }
 
     stages {
@@ -31,13 +32,13 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        /*stage('Build Docker Image') {
             steps {
                 script {
                     bat "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
                 }
             }
-        }
+        }*/
 
           stage('Optional: Push Docker Image') {
 //                   when {
@@ -47,9 +48,9 @@ pipeline {
                       script {
                           def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
                           bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
-                          docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
-                              bat "docker push ${fullImage}"
-                          }
+                            docker.withRegistry("https://${DOCKER_REGISTRY}", DOCKER_CREDENTIALS_ID) {
+                                                  docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
+                                              }
                       }
                   }
               }
