@@ -61,9 +61,9 @@ pipeline {
                      }
 
                   }
+            }
 
-
-
+        }
     post {
         success {
             echo '✅ Build terminé avec succès'
