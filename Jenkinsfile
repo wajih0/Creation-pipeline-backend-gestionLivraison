@@ -32,13 +32,13 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        /*stage('Build Docker Image') {
             steps {
                 script {
                     bat "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
                 }
             }
-        }
+        }*/
 
           stage('Optional: Push Docker Image') {
 //                   when {
@@ -57,12 +57,9 @@ pipeline {
                     bat "docker login -u ${DOCKER_CREDENTIALS_ID} -p ${DOCKER_HUB_CREDENTALS_PSW}"
 
                            script {
-                                             def fullImage = "${env.IMAGE_NAME}:${env.IMAGE_TAG}"
-                                             bat """
-                                                 docker tag ${env.IMAGE_NAME}:${env.IMAGE_TAG} ${fullImage}
-                                                 docker  push --quiet ${fullImage}  && echo "Push successful"
-                                             """
-                                         }
+                                            docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
+                                                      docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
+                                                  }
                         }
               }
     }
