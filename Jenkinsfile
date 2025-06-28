@@ -54,13 +54,13 @@ pipeline {
 //                       }
 //                   }
             steps {
-      bat "docker login -u ${DOCKER_HUB_CREDENTALS_USR} -p ${DOCKER_HUB_CREDENTALS_PSW}"
+     // bat "docker login -u ${DOCKER_HUB_CREDENTALS_USR} -p ${DOCKER_HUB_CREDENTALS_PSW}"
 
                            script {
                                              def fullImage = "${env.IMAGE_NAME}:${env.IMAGE_TAG}"
                                              bat """
                                                  docker tag ${env.IMAGE_NAME}:${env.IMAGE_TAG} ${fullImage}
-                                                 docker push --quiet ${fullImage}  && echo "Push successful"
+                                                 sudo docker  push --quiet ${fullImage}  && echo "Push successful"
                                              """
                                          }
                         }
