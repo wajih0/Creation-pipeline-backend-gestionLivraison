@@ -7,7 +7,7 @@ pipeline {
      }
 
     environment {
-        IMAGE_NAME = 'wajih0/pipeline-demoproduit'
+        IMAGE_NAME = 'wajih0/demoproduit'
         IMAGE_TAG = 'latest'
         DOCKER_REGISTRY = 'docker.io' // exemple: 'dockerhub' ou vide si pas de push
          DOCKER_CREDENTIALS_ID = 'docker_credantial'
@@ -32,13 +32,13 @@ pipeline {
             }
         }
 
-        /*stage('Build Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 script {
                     bat "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
                 }
             }
-        }*/
+        }
 
           stage('Optional: Push Docker Image') {
 //                   when {
