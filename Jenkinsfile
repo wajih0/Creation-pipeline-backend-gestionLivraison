@@ -9,7 +9,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'demoproduit'
         IMAGE_TAG = 'latest'
-        DOCKER_REGISTRY = '' // exemple: 'dockerhub' ou vide si pas de push
+        DOCKER_REGISTRY = 'docker.io' // exemple: 'dockerhub' ou vide si pas de push
     }
 
     stages {
@@ -40,14 +40,14 @@ pipeline {
         }
 
           stage('Optional: Push Docker Image') {
-                  when {
-                      expression { return env.DOCKER_REGISTRY?.trim() }
-                  }
+//                   when {
+//                       expression { return env.DOCKER_REGISTRY?.trim() }
+//                   }
                   steps {
                       script {
                           def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
                           bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
-                          docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker-hub-credentials-id') {
+                          docker.withRegistry("https://${DOCKER_REGISTRY}", 'wajihdocker') {
                               bat "docker push ${fullImage}"
                           }
                       }

@@ -18,6 +18,8 @@ public class produit {
     String nom;
     double prix;
 
+    @ManyToOne
+    CategorieProduit categorieProduit ;
     public String getNom() {
         return nom;
     }
