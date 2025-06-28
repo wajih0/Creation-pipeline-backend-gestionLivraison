@@ -61,7 +61,7 @@ pipeline {
                                                       docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
                                                   }
                         }
-              }
+
     }
 
     post {
