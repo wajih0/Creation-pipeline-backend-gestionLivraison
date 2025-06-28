@@ -7,7 +7,7 @@ pipeline {
      }
 
     environment {
-        IMAGE_NAME = 'wajihdocker/demoproduit'
+        IMAGE_NAME = 'wajihdocker/wajihrepo'
         IMAGE_TAG = 'latest'
         DOCKER_REGISTRY = 'docker.io' // exemple: 'dockerhub' ou vide si pas de push
          DOCKER_CREDENTIALS_ID = 'docker_credantial'
@@ -54,7 +54,7 @@ pipeline {
 //                       }
 //                   }
             steps {
-
+                            bat "docker login -u ${DOCKER_HUB_CREDENTALS_USR} -p ${DOCKER_HUB_CREDENTALS_PSW}"
                            script {
                                             docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
                                                      def image = docker.image("${IMAGE_NAME}:${IMAGE_TAG}")
