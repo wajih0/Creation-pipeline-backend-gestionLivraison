@@ -54,7 +54,7 @@ pipeline {
 //                       }
 //                   }
             steps {
-                    bat "docker login -u ${DOCKER_HUB_CREDENTALS_USR} -p ${DOCKER_HUB_CREDENTALS_PSW}"
+
                             script {
                                docker.withRegistry("https://${DOCKER_REGISTRY}", DOCKER_CREDENTIALS_ID) {
                                                        docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
