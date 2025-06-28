@@ -47,7 +47,7 @@ pipeline {
                       script {
                           def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
                           bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
-                          docker.withRegistry("https://${DOCKER_REGISTRY}", 'wajihdocker') {
+                          docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
                               bat "docker push ${fullImage}"
                           }
                       }
