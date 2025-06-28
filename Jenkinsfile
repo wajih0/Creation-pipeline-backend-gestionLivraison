@@ -32,7 +32,7 @@ pipeline {
             }
         }
 
-        /*stage('Build Docker Image') {
+       /*stage('Build Docker Image') {
             steps {
                 script {
                     bat "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
@@ -58,10 +58,11 @@ pipeline {
 
                            script {
                                             docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
-                                                      docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
-                                                  }
+                                                       docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
+                                                   }
+                                         }
                         }
-
+              }
     }
 
     post {
