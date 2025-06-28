@@ -44,15 +44,24 @@ pipeline {
 //                   when {
 //                       expression { return env.DOCKER_REGISTRY?.trim() }
 //                   }
-                  steps {
-                      script {
-                          def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-                          bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
-                            docker.withRegistry("https://${DOCKER_REGISTRY}", DOCKER_CREDENTIALS_ID) {
-                                                  docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
-                                              }
-                      }
-                  }
+//                   steps {
+//                       script {
+//                           def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+//                           bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
+//                             docker.withRegistry("https://${DOCKER_REGISTRY}", DOCKER_CREDENTIALS_ID) {
+//                                                   docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
+//                                               }
+//                       }
+//                   }
+            steps {
+                    bat "docker login -u ${DOCKER_HUB_CREDENTALS_USR} -p ${DOCKER_HUB_CREDENTALS_PSW}"
+                            script {
+                                def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+                                bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
+                                bat "docker push ${fullImage}"
+
+                            }
+                        }
               }
     }
 
