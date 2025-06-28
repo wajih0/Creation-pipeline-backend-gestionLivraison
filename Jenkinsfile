@@ -54,7 +54,6 @@ pipeline {
 //                       }
 //                   }
             steps {
-                    bat "docker login -u ${DOCKER_CREDENTIALS_ID} -p ${DOCKER_HUB_CREDENTALS_PSW}"
 
                            script {
                                             docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
