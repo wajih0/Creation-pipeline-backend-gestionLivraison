@@ -37,7 +37,7 @@ pipeline {
            stage('Test Unitaire') {
                     steps {
                         echo "Lancement des tests unitaires..."
-                        bat './mvnw test' // ou 'mvn test' si vous n'utilisez pas le wrapper
+                        bat './mvnw test ' // ou 'mvn test' si vous n'utilisez pas le wrapper
                     }
                 }
 
