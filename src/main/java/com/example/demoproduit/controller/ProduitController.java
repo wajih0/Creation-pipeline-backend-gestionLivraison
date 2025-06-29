@@ -14,10 +14,6 @@ import java.util.List;
 public class ProduitController {
     private  final ProduitService produitService;
 
-    public ProduitController(ProduitService produitService) {
-        this.produitService = produitService;
-    }
-
 
     @GetMapping("retriveall")
     @CrossOrigin(origins = "http://localhost:4200")
