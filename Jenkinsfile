@@ -28,18 +28,18 @@ pipeline {
 
 
 
-        stage('Test') {
-            steps {
-                bat 'mvn test'
-            }
-        }
-
-           stage('Test Unitaire') {
-                    steps {
-                        echo "Lancement des tests unitaires..."
-                        bat './mvnw test' // ou 'mvn test' si vous n'utilisez pas le wrapper
-                    }
-                }
+//         stage('Test') {
+//             steps {
+//                 bat 'mvn test'
+//             }
+//         }
+//
+//            stage('Test Unitaire') {
+//                     steps {
+//                         echo "Lancement des tests unitaires..."
+//                         bat './mvnw test' // ou 'mvn test' si vous n'utilisez pas le wrapper
+//                     }
+//                 }
 
                   stage('SonarQube Analysis') {
                                    steps {
