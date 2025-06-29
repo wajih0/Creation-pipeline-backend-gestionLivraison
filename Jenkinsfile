@@ -41,14 +41,14 @@ pipeline {
 //                     }
 //                 }
 
-                  stage('SonarQube Analysis') {
-                                   steps {
-                                         withSonarQubeEnv('sonarqube_server') {
-                                             bat 'mvn sonar:sonar -Dsonar.projectKey=pip_backend'
-                                         }
-
-                                     }
-                          }
+//                   stage('SonarQube Analysis') {
+//                                    steps {
+//                                          withSonarQubeEnv('sonarqube_server') {
+//                                              bat 'mvn sonar:sonar -Dsonar.projectKey=pip_backend'
+//                                          }
+//
+//                                      }
+//                           }
                               stage('Package') {
                                                   steps {
                                                       bat './mvnw clean package -DskipTests'
