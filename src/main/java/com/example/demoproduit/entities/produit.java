@@ -20,10 +20,6 @@ public class produit {
 
     @ManyToOne
     CategorieProduit categorieProduit ;
-
-    public produit(long l, String produit1, double v) {
-    }
-
     public String getNom() {
         return nom;
     }
