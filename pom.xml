@@ -15,6 +15,17 @@
 	<groupId>com.example</groupId>
 	<artifactId>demoproduit</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<url>http://localhost:8082/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<url>http://localhost:8082/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<packaging>war</packaging>
 	<name>demoproduit</name>
 	<description>Demo project for Spring Boot</description>
 

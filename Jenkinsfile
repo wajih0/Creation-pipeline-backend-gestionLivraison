@@ -49,6 +49,26 @@ pipeline {
 
                                      }
                           }
+                           stage('Nexus') {
+                                        steps {
+                                              nexusArtifactUploader(
+                                                          artifacts: [[
+                                                              artifactId: 'demoproduit',
+                                                              file: 'target/demoproduit-0.0.1-SNAPSHOT.war', // Nom exact
+                                                              type: 'war' // Spring Boot génère un .war par défaut
+                                                          ]],
+                                                          credentialsId: 'nexus',
+                                                          groupId: 'com.example', // Doit matcher <groupId>
+                                                          nexusUrl: 'localhost:8082',
+                                                          nexusVersion: 'nexus3',
+                                                          protocol: 'http',
+                                                          repository: 'maven-snapshots',
+                                                          version: '0.0.1-SNAPSHOT' // Doit matcher <version>
+                                              )
+
+                                        }
+                                    }
+
 
        stage('Build Docker Image') {
             steps {
