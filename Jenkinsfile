@@ -84,30 +84,30 @@ pipeline {
             }
         }
 
-          stage('Optional: Push Docker Image') {
-                  when {
-                      expression { return env.DOCKER_REGISTRY?.trim() }
-                  }
-                  steps {
-                     script {
-                         docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
-                             def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-
-                             // Affichage utile pour debug
-                             echo "Tagging and pushing image: ${fullImage}"
-
-                             // Tag l'image localement vers le nom complet du registre
-                             bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
-
-                             // Push l'image taguée
-                             bat "docker push ${fullImage}"
-                         }
-                     }
-
-                  }
-            }
-
-        }
+//           stage('Optional: Push Docker Image') {
+//                   when {
+//                       expression { return env.DOCKER_REGISTRY?.trim() }
+//                   }
+//                   steps {
+//                      script {
+//                          docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
+//                              def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+//
+//                              // Affichage utile pour debug
+//                              echo "Tagging and pushing image: ${fullImage}"
+//
+//                              // Tag l'image localement vers le nom complet du registre
+//                              bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
+//
+//                              // Push l'image taguée
+//                              bat "docker push ${fullImage}"
+//                          }
+//                      }
+//
+//                   }
+//             }
+//
+//         }
     post {
         success {
             echo '✅ Build terminé avec succès'
