@@ -52,8 +52,7 @@ pipeline {
                               stage('Package') {
                                                   steps {
                                                       bat './mvnw clean package -DskipTests'
-                                                      // Vérification que le WAR est généré
-                                                      bat 'dir target\\*.war'
+                                                      bat 'dir target\\*.jar'
                                                   }
                                     }
                            stage('Nexus') {
@@ -61,8 +60,8 @@ pipeline {
                                               nexusArtifactUploader(
                                                           artifacts: [[
                                                               artifactId: 'demoproduit',
-                                                              file: 'target/demoproduit-0.0.1-SNAPSHOT.war', // Nom exact
-                                                              type: 'war' // Spring Boot génère un .war par défaut
+                                                              file: 'target/demoproduit-0.0.1-SNAPSHOT.jar', // Nom exact
+                                                              type: 'jar' // Spring Boot génère un .jar par défaut
                                                           ]],
                                                           credentialsId: 'nexus_token',
                                                           groupId: 'com.example', // Doit matcher <groupId>
