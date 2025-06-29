@@ -25,7 +25,8 @@
 			<url>http://localhost:8082/repository/maven-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-	<packaging>war</packaging>
+
+	<packaging>jar</packaging>
 	<name>demoproduit</name>
 	<description>Demo project for Spring Boot</description>
 
