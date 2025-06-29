@@ -53,7 +53,7 @@ pipeline {
                                                   steps {
                                                       bat './mvnw clean package -DskipTests'
                                                       // Vérification que le WAR est généré
-                                                      bat 'ls -l target/*.war'
+                                                      bat 'dir target\\*.war'
                                                   }
                                     }
                            stage('Nexus') {
