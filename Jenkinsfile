@@ -41,6 +41,15 @@ pipeline {
                     }
                 }
 
+                  stage('SonarQube Analysis') {
+                                   steps {
+                                         withSonarQubeEnv('sonarqube_server') {
+                                             bat 'mvn sonar:sonar -Dsonar.projectKey=pip_backend'
+                                         }
+
+                                     }
+                          }
+
        stage('Build Docker Image') {
             steps {
                 script {
