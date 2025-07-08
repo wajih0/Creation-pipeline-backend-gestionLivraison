@@ -8,7 +8,7 @@ services:
       MYSQL_DATABASE: produit_db
       MYSQL_ROOT_PASSWORD: ""
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
 
@@ -27,6 +27,16 @@ services:
       SPRING_JPA_SHOW_SQL: "true"
       SERVER_SERVLET_CONTEXT_PATH: /demo
       SERVER_PORT: 8080
+
+  frontend:
+    build:
+      context: ../kaddemFront
+      dockerfile: Dockerfile
+    container_name: angular-app
+    ports:
+      - "4200:80"
+    depends_on:
+      - app
 
 volumes:
   mysql-data:
