@@ -83,18 +83,18 @@ pipeline {
                 }
             }
         }
-          post {
-                success {
-                    mail to: 'wajihbenhmida5@gmail.com',
-                         subject: "✅ SUCCESS: Build #${env.BUILD_NUMBER} Passed",
-                         body: "The build was successful. Job: ${env.JOB_NAME} - Build number: ${env.BUILD_NUMBER}"
-                }
-                failure {
-                    mail to: 'wajihbenhmida5@gmail.com',
-                         subject: "❌ FAILURE: Build #${env.BUILD_NUMBER} Failed",
-                         body: "The build failed. Check Jenkins for details: ${env.BUILD_URL}"
-                }
-            }
+//           post {
+//                 success {
+//                     mail to: 'wajihbenhmida5@gmail.com',
+//                          subject: "✅ SUCCESS: Build #${env.BUILD_NUMBER} Passed",
+//                          body: "The build was successful. Job: ${env.JOB_NAME} - Build number: ${env.BUILD_NUMBER}"
+//                 }
+//                 failure {
+//                     mail to: 'wajihbenhmida5@gmail.com',
+//                          subject: "❌ FAILURE: Build #${env.BUILD_NUMBER} Failed",
+//                          body: "The build failed. Check Jenkins for details: ${env.BUILD_URL}"
+//                 }
+//             }
 
 //           stage('Optional: Push Docker Image') {
 //                   when {
