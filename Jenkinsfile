@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     tools {
-         maven 'Maven_3.9.9'
-         jdk 'JDK_17'
-     }
+        maven 'Maven_3.9.9'
+        jdk 'JDK_17'
+    }
 
     environment {
         IMAGE_NAME = 'wajihdocker/demoproduit'
         IMAGE_TAG = 'latest'
         DOCKER_REGISTRY = 'docker.io' // exemple: 'dockerhub' ou vide si pas de push
-         DOCKER_CREDENTIALS_ID = 'docker_credantial'
+        DOCKER_CREDENTIALS_ID = 'docker_credantial'
     }
 
     stages {
@@ -26,106 +26,90 @@ pipeline {
             }
         }
 
-
-
         stage('Test') {
             steps {
                 bat 'mvn test'
             }
         }
 
-           stage('Test Unitaire') {
-                    steps {
-                        echo "Lancement des tests unitaires..."
-                        bat './mvnw test ' // ou 'mvn test' si vous n'utilisez pas le wrapper
-                    }
+        stage('Test Unitaire') {
+            steps {
+                echo "Lancement des tests unitaires..."
+                bat './mvnw test' // ou 'mvn test' si vous n'utilisez pas le wrapper
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonarqube_server') {
+                    bat 'mvn sonar:sonar -Dsonar.projectKey=pip_backend'
                 }
+            }
+        }
 
-                  stage('SonarQube Analysis') {
-                                   steps {
-                                         withSonarQubeEnv('sonarqube_server') {
-                                             bat 'mvn sonar:sonar -Dsonar.projectKey=pip_backend'
-                                         }
+        stage('Package') {
+            steps {
+                bat './mvnw clean package -DskipTests'
+                bat 'dir target\\*.jar'
+            }
+        }
 
-                                     }
-                          }
-                              stage('Package') {
-                                                  steps {
-                                                      bat './mvnw clean package -DskipTests'
-                                                      bat 'dir target\\*.jar'
-                                                  }
-                                    }
-                           stage('Nexus') {
-                                        steps {
-                                              nexusArtifactUploader(
-                                                          artifacts: [[
-                                                              artifactId: 'demoproduit',
-                                                              file: 'target/demoproduit-0.0.1-SNAPSHOT.jar', // Nom exact
-                                                              type: 'jar' // Spring Boot génère un .jar par défaut
-                                                          ]],
-                                                          credentialsId: 'nexus_token',
-                                                          groupId: 'com.example', // Doit matcher <groupId>
-                                                          nexusUrl: 'localhost:8082',
-                                                          nexusVersion: 'nexus3',
-                                                          protocol: 'http',
-                                                          repository: 'maven-snapshots',
-                                                          version: '0.0.1-SNAPSHOT' // Doit matcher <version>
-                                              )
+        stage('Nexus') {
+            steps {
+                nexusArtifactUploader(
+                    artifacts: [[
+                        artifactId: 'demoproduit',
+                        file: 'target/demoproduit-0.0.1-SNAPSHOT.jar',
+                        type: 'jar'
+                    ]],
+                    credentialsId: 'nexus_token',
+                    groupId: 'com.example',
+                    nexusUrl: 'localhost:8082',
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    repository: 'maven-snapshots',
+                    version: '0.0.1-SNAPSHOT'
+                )
+            }
+        }
 
-                                        }
-                                    }
-
-
-       stage('Build Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 script {
                     bat "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
                 }
             }
         }
-          post {
-                success {
-                    mail to: 'wajihbenhmida5@gmail.com',
-                         subject: "✅ SUCCESS: Build #${env.BUILD_NUMBER} Passed",
-                         body: "The build was successful. Job: ${env.JOB_NAME} - Build number: ${env.BUILD_NUMBER}"
-                }
-                failure {
-                    mail to: 'wajihbenhmida5@gmail.com',
-                         subject: "❌ FAILURE: Build #${env.BUILD_NUMBER} Failed",
-                         body: "The build failed. Check Jenkins for details: ${env.BUILD_URL}"
-                }
-            }
 
-//           stage('Optional: Push Docker Image') {
-//                   when {
-//                       expression { return env.DOCKER_REGISTRY?.trim() }
-//                   }
-//                   steps {
-//                      script {
-//                          docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
-//                              def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-//
-//                              // Affichage utile pour debug
-//                              echo "Tagging and pushing image: ${fullImage}"
-//
-//                              // Tag l'image localement vers le nom complet du registre
-//                              bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
-//
-//                              // Push l'image taguée
-//                              bat "docker push ${fullImage}"
-//                          }
-//                      }
-//
-//                   }
+//         stage('Optional: Push Docker Image') {
+//             when {
+//                 expression { return env.DOCKER_REGISTRY?.trim() }
 //             }
+//             steps {
+//                 script {
+//                     docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker_credantial') {
+//                         def fullImage = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
 //
-  //       }
-//     post {
-//         success {
-//             echo '✅ Build terminé avec succès'
+//                         echo "Tagging and pushing image: ${fullImage}"
+//
+//                         bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${fullImage}"
+//                         bat "docker push ${fullImage}"
+//                     }
+//                 }
+//             }
 //         }
-//         failure {
-//             echo '❌ Le build a échoué'
-//         }
-//     }
+    }
+
+    post {
+        success {
+            mail to: 'wajihbenhmida5@gmail.com',
+                subject: "✅ SUCCESS: Build #${env.BUILD_NUMBER} Passed",
+                body: "The build was successful. Job: ${env.JOB_NAME} - Build number: ${env.BUILD_NUMBER}"
+        }
+        failure {
+            mail to: 'wajihbenhmida5@gmail.com',
+                subject: "❌ FAILURE: Build #${env.BUILD_NUMBER} Failed",
+                body: "The build failed. Check Jenkins for details: ${env.BUILD_URL}"
+        }
+    }
 }
