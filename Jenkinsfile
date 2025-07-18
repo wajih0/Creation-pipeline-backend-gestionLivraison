@@ -122,12 +122,12 @@ pipeline {
                           body: "The build failed. Check Jenkins for details: ${env.BUILD_URL}"
                  }
              }
-//     post {
-//         success {
-//             echo '✅ Build terminé avec succès'
-//         }
-//         failure {
-//             echo '❌ Le build a échoué'
-//         }
-//     }
+    post {
+        success {
+            echo '✅ Build terminé avec succès'
+        }
+        failure {
+            echo '❌ Le build a échoué'
+        }
+    }
 }
